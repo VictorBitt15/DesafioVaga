@@ -1,14 +1,34 @@
-﻿using System;
+﻿using FI.AtividadeEntrevista.DML;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.Ajax.Utilities;
 
 namespace WebAtividadeEntrevista.Utils
 {
     public static class Validacao
     {
+        public static bool ValidaCPFsDuplicadosBeneficiados(List<Beneficiario> beneficiarios)
+        {
+            if (beneficiarios == null)
+            {
+                return true;
+            }
+            var beneficiariosDistintos = beneficiarios.DistinctBy(x => x.CPF).ToList();
+            if(beneficiarios.Count > beneficiariosDistintos.Count)
+            {
+                return false;
+
+            }
+            return true;
+
+        }
+
         public static bool ValidaCPF(string cpf)
         {
+
             if (string.IsNullOrEmpty(cpf))
             {
                 throw new Exception("CPF não informado");

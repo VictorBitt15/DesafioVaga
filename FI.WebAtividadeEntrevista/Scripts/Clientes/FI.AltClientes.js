@@ -1,7 +1,10 @@
 ﻿
 $(document).ready(function () {
+    $('#CPF').inputmask('999.999.999-99');
+    $('#BeneficiarioCPF').inputmask('999.999.999-99');
 
     if (obj) {
+        obj.Beneficiarios.forEach(apresentaBenefsDoCliente);
         $('#formCadastro #Nome').val(obj.Nome);
         $('#formCadastro #CEP').val(obj.CEP);
         $('#formCadastro #Email').val(obj.Email);
@@ -13,8 +16,19 @@ $(document).ready(function () {
         $('#formCadastro #Telefone').val(obj.Telefone);
         $('#formCadastro #CPF').val(obj.CPF);
     }
-    $('#CPF').inputmask('999.999.999-99');
+    
     $('#formCadastro').submit(function (e) {
+
+        var TableData = new Array();
+
+        $('#table tr').each(function (row, tr) {
+            TableData[row] = {
+                "CPF": $(tr).find('td:eq(0)').text().replaceAll(".", "").replace("-", ""),
+                "Nome": $(tr).find('td:eq(1)').text()
+            }
+        });
+        TableData.shift();
+
         e.preventDefault();
         
         $.ajax({
@@ -30,7 +44,8 @@ $(document).ready(function () {
                 "Cidade": $(this).find("#Cidade").val(),
                 "Logradouro": $(this).find("#Logradouro").val(),
                 "Telefone": $(this).find("#Telefone").val(),
-                "CPF": $(this).find("#CPF").val().replaceAll(".", "").replace("-", "")
+                "CPF": $(this).find("#CPF").val().replaceAll(".", "").replace("-", ""),
+                "Beneficiarios":TableData
             },
             error:
             function (r) {
@@ -47,9 +62,31 @@ $(document).ready(function () {
             }
         });
     })
-    
+    $('#table').on('click', '.beneficiario-remove', function () {
+        $(this).parents('tr').detach();
+    });
+
+    $('#table').on('click', '.beneficiario-edit', function () {
+        $('#BeneficiarioCPF').val($(this).parents('tr').find('.CPFBenefAdicionado').text());
+        $('#BeneficiarioNome').val($(this).parents('tr').find('.NOMEBenefAdicionado').text());
+        $(this).parents('tr').detach();
+    });
+    $('#incluirBenefCliente').on('click', function (e) {
+        $('#tableBeneficiarios')
+            .append("<tr><td class='CPFBenefAdicionado'>" +
+            $('#BeneficiarioCPF').val().inputmask('999.999.999-99') + "</td><td class='NOMEBenefAdicionado'>" +
+                $('#BeneficiarioNome').val() + "</td><td><span class='beneficiario-edit'><button type='button' class='btn btn-warning'>Editar</button></span>     <span class='beneficiario-remove'><button type='button' class='btn btn-danger'>Excluir</button></span></td></tr>");
+
+    });
 })
 
+
+function apresentaBenefsDoCliente(item) {
+    $('#tableBeneficiarios')
+        .append("<tr><td class='CPFBenefAdicionado'>" +
+        item.CPF + "</td><td class='NOMEBenefAdicionado'>" +
+        item.Nome + "</td><td><span class='beneficiario-edit'><button type='button' class='btn btn-warning'>Editar</button></span>     <span class='beneficiario-remove'><button type='button' class='btn btn-danger'>Excluir</button></span></td></tr>");
+}
 function ModalDialog(titulo, texto) {
     var random = Math.random().toString().replace('.', '');
     var texto = '<div id="' + random + '" class="modal fade">                                                               ' +

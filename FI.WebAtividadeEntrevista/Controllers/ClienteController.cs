@@ -26,6 +26,20 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Incluir(ClienteModel model)
         {
+            if (!Validacao.ValidaCPFsDuplicadosBeneficiados(model.Beneficiarios))
+            {
+                Response.StatusCode = 400;
+                return Json(string.Join(Environment.NewLine, "Exitem beneficiários com CPFs duplicados na lista."));
+            }
+            foreach (Beneficiario beneficiario in model.Beneficiarios)
+            {
+                if (!Validacao.ValidaCPF(beneficiario.CPF))
+                {
+                    Response.StatusCode = 400;
+                    return Json(string.Join(Environment.NewLine, "CPF do beneficiário " + beneficiario.Nome + " é inválido, por favor digite novamente."));
+                }
+            }
+
             if (!Validacao.ValidaCPF(model.CPF))
             {
                 Response.StatusCode = 400;
@@ -64,7 +78,9 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF
+                    CPF = model.CPF,
+                    Beneficiarios = model.Beneficiarios
+                    
                     
                 });
 
@@ -76,19 +92,35 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Alterar(ClienteModel model)
         {
+            try
+            {
+                if (!Validacao.ValidaCPFsDuplicadosBeneficiados(model.Beneficiarios))
+                {
+                    Response.StatusCode = 400;
+                    return Json(string.Join(Environment.NewLine, "Exitem beneficiários com CPFs duplicados na lista."));
+                }
+                foreach (Beneficiario beneficiario in model.Beneficiarios)
+                {
+                    if (!Validacao.ValidaCPF(beneficiario.CPF))
+                    {
+                        Response.StatusCode = 400;
+                        return Json(string.Join(Environment.NewLine, "CPF do beneficiário " + beneficiario.Nome + " é inválido, por favor digite novamente."));
+                    }
+                }
+
+            }
+            catch(Exception e)
+            {
+                //Cliente não adicionou nenhum beneficiário, logo não adicionrá nenhum, porém a origem for a página de alterar, vai remover os beneficiários que existem.
+            }
+
+
             if (!Validacao.ValidaCPF(model.CPF))
             {
                 Response.StatusCode = 400;
                 return Json(string.Join(Environment.NewLine, "CPF Inválido."));
             }
             BoCliente bo = new BoCliente();
-
-            if (bo.VerificarExistencia(model.CPF,model.Id))
-            {
-
-                Response.StatusCode = 400;
-                return Json(string.Join(Environment.NewLine, "CPF já cadastrado."));
-            }
 
             if (!this.ModelState.IsValid)
             {
@@ -113,7 +145,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF
+                    CPF = model.CPF,
+                    Beneficiarios = model.Beneficiarios
                 });
                                
                 return Json("Cadastro alterado com sucesso");
@@ -141,7 +174,9 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
                     Telefone = cliente.Telefone,
-                    CPF = cliente.CPF
+                    CPF = cliente.CPF,
+                    Beneficiarios = cliente.Beneficiarios
+                    
                 };
 
             

@@ -28,3 +28,9 @@ C:\Users\07579744490\source\repos\DesafioVaga-master\FI.AtividadeEntrevista\obj\
 C:\Users\07579744490\source\repos\DesafioVaga-master\FI.AtividadeEntrevista\obj\Debug\FI.AtividadeEntrevista.csproj.CoreCompileInputs.cache
 C:\Users\07579744490\source\repos\DesafioVaga-master\FI.AtividadeEntrevista\obj\Debug\FI.AtividadeEntrevista.dll
 C:\Users\07579744490\source\repos\DesafioVaga-master\FI.AtividadeEntrevista\obj\Debug\FI.AtividadeEntrevista.pdb
+C:\Users\VICTO\repos\DesafioVaga\FI.AtividadeEntrevista\bin\Debug\FI.AtividadeEntrevista.dll
+C:\Users\VICTO\repos\DesafioVaga\FI.AtividadeEntrevista\bin\Debug\FI.AtividadeEntrevista.pdb
+C:\Users\VICTO\repos\DesafioVaga\FI.AtividadeEntrevista\obj\Debug\FI.AtividadeEntrevista.csproj.CoreCompileInputs.cache
+C:\Users\VICTO\repos\DesafioVaga\FI.AtividadeEntrevista\obj\Debug\FI.AtividadeEntrevista.dll
+C:\Users\VICTO\repos\DesafioVaga\FI.AtividadeEntrevista\obj\Debug\FI.AtividadeEntrevista.pdb
+C:\Users\VICTO\repos\DesafioVaga\FI.AtividadeEntrevista\obj\Debug\FI.AtividadeEntrevista.csprojAssemblyReference.cache
