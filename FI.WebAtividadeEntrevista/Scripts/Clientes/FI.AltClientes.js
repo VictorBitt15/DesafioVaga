@@ -62,15 +62,17 @@ $(document).ready(function () {
             }
         });
     })
+    //Ação de apertar no botão com id beneficiario-remove e remoção dos elementos que estão abaixo da tag tr
     $('#table').on('click', '.beneficiario-remove', function () {
         $(this).parents('tr').detach();
     });
-
+    //Ação de apertar no botão com id beneficiario-edit, colocando os valores nos inputs e remoção dos elementos que estão abaixo da tag tr
     $('#table').on('click', '.beneficiario-edit', function () {
         $('#BeneficiarioCPF').val($(this).parents('tr').find('.CPFBenefAdicionado').text());
         $('#BeneficiarioNome').val($(this).parents('tr').find('.NOMEBenefAdicionado').text());
         $(this).parents('tr').detach();
     });
+    //Inclui beneficiario em forma de linha na table
     $('#incluirBenefCliente').on('click', function (e) {
         $('#tableBeneficiarios')
             .append("<tr><td class='CPFBenefAdicionado'>" +
@@ -80,7 +82,7 @@ $(document).ready(function () {
     });
 })
 
-
+//Função que adiciona os beneficiarios em forma de linha na table, quando são recebidos pelo retorno dos dados do cliente
 function apresentaBenefsDoCliente(item) {
     $('#tableBeneficiarios')
         .append("<tr><td class='CPFBenefAdicionado'>" +

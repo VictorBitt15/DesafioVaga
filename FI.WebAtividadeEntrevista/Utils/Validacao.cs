@@ -12,10 +12,6 @@ namespace WebAtividadeEntrevista.Utils
     {
         public static bool ValidaCPFsDuplicadosBeneficiados(List<Beneficiario> beneficiarios)
         {
-            if (beneficiarios == null)
-            {
-                return true;
-            }
             var beneficiariosDistintos = beneficiarios.DistinctBy(x => x.CPF).ToList();
             if(beneficiarios.Count > beneficiariosDistintos.Count)
             {

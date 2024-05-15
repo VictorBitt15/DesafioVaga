@@ -129,6 +129,8 @@ namespace FI.AtividadeEntrevista.DAL
             parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", cliente.CPF));
 
             base.Executar("FI_SP_AltCliente", parametros);
+
+            //Foi usado a lógica de apagar todos os beneficiarios do cliente e adicionar aqueles que estão na lista do objeto Cliente
             List<System.Data.SqlClient.SqlParameter> parametrosDel = new List<System.Data.SqlClient.SqlParameter>();
             parametrosDel.Add(new System.Data.SqlClient.SqlParameter("IDCLIENTE", cliente.Id));
             base.Executar("FI_SP_DelBeneficiarios", parametrosDel);
@@ -179,6 +181,11 @@ namespace FI.AtividadeEntrevista.DAL
 
             return lista;
         }
+        /**
+         * Função que adicionar benecifiarios na tabela especifica, passando o IDDLIENTE criado anteriormente 
+         * quando o Cliente foi inserido.
+         * 
+         * */
         private void AdicionarBeneficiarios(List<Beneficiario> beneficiarios, dynamic idCliente)
         {
             foreach (Beneficiario beneficiario in beneficiarios)
@@ -190,6 +197,11 @@ namespace FI.AtividadeEntrevista.DAL
                 DataSet insertingBenefs = base.Consultar("FI_SP_IncBeneficiario", parametrosBenefIns);
             }
         }
+        /***
+         * 
+         * Função que retorna os beneficiarios de um cliente especifico e adiciona no objeto Beneficiario que contém a lista de beneficiarios
+         * 
+         * */
         private List<Beneficiario> BuscaBeneficiariosCliente(long idCliente)
         {
             List<Beneficiario> beneficiarios = new List<Beneficiario>();

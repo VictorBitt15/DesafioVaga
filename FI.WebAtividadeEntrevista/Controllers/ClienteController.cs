@@ -26,19 +26,27 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Incluir(ClienteModel model)
         {
-            if (!Validacao.ValidaCPFsDuplicadosBeneficiados(model.Beneficiarios))
+            try
             {
-                Response.StatusCode = 400;
-                return Json(string.Join(Environment.NewLine, "Exitem beneficiários com CPFs duplicados na lista."));
-            }
-            foreach (Beneficiario beneficiario in model.Beneficiarios)
-            {
-                if (!Validacao.ValidaCPF(beneficiario.CPF))
+                if (!Validacao.ValidaCPFsDuplicadosBeneficiados(model.Beneficiarios))
                 {
                     Response.StatusCode = 400;
-                    return Json(string.Join(Environment.NewLine, "CPF do beneficiário " + beneficiario.Nome + " é inválido, por favor digite novamente."));
+                    return Json(string.Join(Environment.NewLine, "Exitem beneficiários com CPFs duplicados na lista."));
+                }
+                foreach (Beneficiario beneficiario in model.Beneficiarios)
+                {
+                    if (!Validacao.ValidaCPF(beneficiario.CPF))
+                    {
+                        Response.StatusCode = 400;
+                        return Json(string.Join(Environment.NewLine, "CPF do beneficiário " + beneficiario.Nome + " é inválido, por favor digite novamente."));
+                    }
                 }
             }
+            catch(Exception e)
+            {
+                //Cliente não adicionou nenhum beneficiário, logo não adicionrá nenhum, porém a origem for a página de alterar, vai remover os beneficiários que existem.
+            }
+
 
             if (!Validacao.ValidaCPF(model.CPF))
             {
